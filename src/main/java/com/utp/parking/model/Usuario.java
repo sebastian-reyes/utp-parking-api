@@ -1,5 +1,6 @@
 package com.utp.parking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +37,7 @@ public class Usuario implements UserDetails {
     @Column(length = 50, nullable = false)
     private String apellidos;
 
-    @Column(name ="correo_institucional" ,length = 25, nullable = false)
+    @Column(name = "correo_institucional", length = 25, nullable = false)
     private String correoInstitucional;
 
     @Column(length = 8, nullable = false)
@@ -49,6 +50,18 @@ public class Usuario implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "usuario"})
+    private List<Vehiculo> vehiculos;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "usuario"})
+    private List<Registro> registrosUsuario;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuarioSeguridad", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "usuarioSeguridad"})
+    private List<Registro> registrosSeguridad;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
