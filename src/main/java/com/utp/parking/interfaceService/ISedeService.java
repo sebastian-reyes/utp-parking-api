@@ -1,4 +1,4 @@
-package com.utp.interfaceService;
+package com.utp.parking.interfaceService;
 
 import com.utp.parking.model.Sede;
 

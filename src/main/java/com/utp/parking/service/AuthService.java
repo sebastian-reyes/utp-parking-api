@@ -1,9 +1,8 @@
 package com.utp.parking.service;
 
-import com.utp.parking.dto.AuthResponse;
-import com.utp.parking.dto.LoginRequest;
-import com.utp.parking.dto.RegisterRequest;
-import com.utp.parking.model.Role;
+import com.utp.parking.model.dto.AuthResponse;
+import com.utp.parking.model.dto.LoginRequest;
+import com.utp.parking.model.dto.RegisterRequest;
 import com.utp.parking.model.Usuario;
 import com.utp.parking.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

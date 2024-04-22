@@ -1,8 +1,8 @@
 package com.utp.parking.auth;
 
-import com.utp.parking.dto.AuthResponse;
-import com.utp.parking.dto.LoginRequest;
-import com.utp.parking.dto.RegisterRequest;
+import com.utp.parking.model.dto.AuthResponse;
+import com.utp.parking.model.dto.LoginRequest;
+import com.utp.parking.model.dto.RegisterRequest;
 import com.utp.parking.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
