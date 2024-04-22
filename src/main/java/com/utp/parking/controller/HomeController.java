@@ -16,18 +16,4 @@ public class HomeController {
         return "Bienvenido desde un endpoint privado";
     }
 
-    @GetMapping("/docente")
-    public String docente(){
-        return "Bienvenido si eres un docente";
-    }
-
-    @GetMapping("/alumno")
-    public String alumno(){
-        return "Bienvenido si eres un alumno";
-    }
-
-    @GetMapping("/seguridad")
-    public String seguridad(){
-        return "Bienvenido si eres de seguridad";
-    }
 }
