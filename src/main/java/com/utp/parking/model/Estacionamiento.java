@@ -20,8 +20,8 @@ public class Estacionamiento {
     private Integer id_estacionamiento;
 
     private Integer piso;
-
     private Integer numero;
+    private Boolean disponible;
 
     @Column(length = 50)
     private String nombre;
