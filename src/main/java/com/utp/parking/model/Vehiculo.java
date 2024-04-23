@@ -37,4 +37,8 @@ public class Vehiculo {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehiculo", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "vehiculo"})
     private List<Registro> registros;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vehiculo", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "vehiculo"})
+    private List<Solicitud> solicitudes;
 }
