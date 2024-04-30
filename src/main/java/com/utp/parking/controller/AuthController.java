@@ -1,4 +1,4 @@
-package com.utp.parking.auth;
+package com.utp.parking.controller;
 
 import com.utp.parking.model.dto.AuthResponse;
 import com.utp.parking.model.dto.LoginRequest;
@@ -20,7 +20,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
-
         return ResponseEntity.ok(authService.login(loginRequest));
     }
 
