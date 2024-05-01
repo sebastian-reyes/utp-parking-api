@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IEstacionamientoService {
     public List<Estacionamiento> listarEstacionamientos(int idSede, int piso);
+    public Estacionamiento buscarEstacionamiento(int idEstacionamiento);
 }

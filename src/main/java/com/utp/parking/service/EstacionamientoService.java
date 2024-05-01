@@ -18,4 +18,9 @@ public class EstacionamientoService implements IEstacionamientoService {
     public List<Estacionamiento> listarEstacionamientos(int idSede, int piso) {
         return repository.findByIdSedeAndPiso(idSede, piso);
     }
+
+    @Override
+    public Estacionamiento buscarEstacionamiento(int idEstacionamiento) {
+        return repository.findById(idEstacionamiento).orElse(null);
+    }
 }
