@@ -2,7 +2,6 @@ package com.utp.parking.service;
 
 import com.utp.parking.interfaceService.ISedeService;
 import com.utp.parking.model.Sede;
-import com.utp.parking.model.dto.DtoSede;
 import com.utp.parking.repository.SedeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

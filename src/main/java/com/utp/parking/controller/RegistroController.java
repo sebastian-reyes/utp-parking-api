@@ -3,7 +3,6 @@ package com.utp.parking.controller;
 import com.utp.parking.interfaceService.IRegistroService;
 import com.utp.parking.interfaceService.ISedeService;
 import com.utp.parking.interfaceService.IVehiculoService;
-import com.utp.parking.model.Estacionamiento;
 import com.utp.parking.model.Registro;
 import com.utp.parking.model.Sede;
 import com.utp.parking.model.dto.DtoRegistroRequest;
