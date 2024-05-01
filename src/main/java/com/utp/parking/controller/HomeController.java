@@ -16,4 +16,20 @@ public class HomeController {
         return "Bienvenido desde un endpoint privado";
     }
 
+    /*
+    @GetMapping("/seguridad")
+    public String seguridad(){
+        return "Bienvenido si eres de seguridad";
+    }
+
+    @GetMapping("/docente")
+    public String docente(){
+        return "Bienvenido docente";
+    }
+
+    @GetMapping("/alumno")
+    public String alumno(){
+        return "Alumno";
+    }
+    */
 }

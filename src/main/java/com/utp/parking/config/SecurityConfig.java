@@ -32,7 +32,7 @@ public class SecurityConfig {
                                 .requestMatchers("/home/alumno").hasAuthority("ALUMNO")
                                 .requestMatchers("/home/docente").hasAuthority("DOCENTE")
                                 .requestMatchers("/home/seguridad").hasAuthority("SEGURIDAD")
-                                 */
+                                */
                                 .anyRequest().authenticated())
                 .sessionManagement(sessionManager->
                         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
