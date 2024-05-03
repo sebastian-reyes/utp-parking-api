@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/registros")
+    @RequestMapping("/registros")
 public class RegistroController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class RegistroController {
     @Autowired
     private EstacionamientoService estacionamientoService;
 
-    @PostMapping("/v1/ingreso")
+    @PostMapping("/ingreso")
     public ResponseEntity<?> registarIngreso(@RequestBody DtoRegistroRequest request) {
         Map<String, Object> response = new HashMap<>();
         request.setIdUsuario(vehiculoService.buscarVehiculo(request.getPlaca()).getUsuario().getId_usuario());
@@ -55,7 +55,7 @@ public class RegistroController {
         }
     }
 
-    @PatchMapping("/v1/salida/{placa}")
+    @PatchMapping("/salida/{placa}")
     public ResponseEntity<?> registrarSalida(@PathVariable String placa) {
         Map<String, Object> response = new HashMap<>();
         Integer idVehiculo = vehiculoService.buscarVehiculo(placa).getId_vehiculo();
