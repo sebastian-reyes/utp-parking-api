@@ -16,7 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-    @RequestMapping("/registros")
+@RequestMapping("/registros")
+@CrossOrigin(origins = {"http://localhost:4200/"})
 public class RegistroController {
 
     @Autowired
