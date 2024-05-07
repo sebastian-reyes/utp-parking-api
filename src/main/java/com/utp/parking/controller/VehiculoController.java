@@ -39,8 +39,10 @@ public class VehiculoController {
         try {
             if (service.validarVehiculo(placa)) {
                 response.put("mensaje", "El vehiculo está autorizado");
+                response.put("valido", true);
             } else {
                 response.put("mensaje", "El vehiculo no está autorizado");
+                response.put("valido", false);
             }
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {

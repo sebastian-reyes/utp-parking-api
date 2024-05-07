@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/registros")
-@CrossOrigin(origins = {"http://localhost:4200/"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class RegistroController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class RegistroController {
 
     @Autowired
     private EstacionamientoService estacionamientoService;
-
+    
     @PostMapping("/ingreso")
     public ResponseEntity<?> registarIngreso(@RequestBody DtoRegistroRequest request) {
         Map<String, Object> response = new HashMap<>();
