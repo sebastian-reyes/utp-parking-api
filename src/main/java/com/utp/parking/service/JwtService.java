@@ -34,9 +34,10 @@ public class JwtService {
 
         String nombres = usuarioRepository.findByUsername(user.getUsername()).orElseThrow(null).getNombres();
         String apellidos = usuarioRepository.findByUsername(user.getUsername()).orElseThrow(null).getApellidos();
-
+        Integer idUser = usuarioRepository.findByUsername(user.getUsername()).orElseThrow(null).getId_usuario();
         extraClaims.put("role", user.getAuthorities().toString()
         );
+        extraClaims.put("id", idUser);
         extraClaims.put("nombres", nombres);
         extraClaims.put("apellidos", apellidos);
 
@@ -45,7 +46,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
