@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DtoSede {
+    private Integer idSede;
     private String nombre;
     private String direccion;
     private Integer cantidad;
