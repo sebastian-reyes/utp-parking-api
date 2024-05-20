@@ -11,7 +11,7 @@ estacionamientos disponibles** que hay por cada sede del campus "Lima Centro"
 
 - [x] Login (estudiantes, docentes, administrativos y personal de seguridad)
 - [x] Mostrar datos de estacionamientos disponibles
-- [ ] Registrar solicitud para el ingreso del vehículo
+- [x] Registrar solicitud para el ingreso del vehículo
 - [ ] Autorización o denegación de solicitud de registro
 - [x] Validación de placa para ingreso de vehículo
 - [x] Registro de ingreso y salidas de vehículos
