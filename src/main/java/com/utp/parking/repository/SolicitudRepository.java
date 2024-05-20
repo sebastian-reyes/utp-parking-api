@@ -16,7 +16,8 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO solicitudes VALUES (NULL,'Por verificar', CURRENT_TIMESTAMP, :id_usuario, :id_vehiculo, NULL)",
+    @Query(value = "INSERT INTO solicitudes(id_solicitud,estado,fecha_solicitud,id_usuario,id_vehiculo,fecha_respuesta) " +
+            "VALUES (NULL,'Por verificar', CURRENT_TIMESTAMP, :id_usuario, :id_vehiculo, NULL)",
             nativeQuery = true)
-    void registrarSolicitud(@Param("id_vehiculo") int id_vehiculo, @Param("id_usuario") int id_usuario);
+    void registrarSolicitud(@Param("id_usuario") int id_usuario, @Param("id_vehiculo") int id_vehiculo);
 }

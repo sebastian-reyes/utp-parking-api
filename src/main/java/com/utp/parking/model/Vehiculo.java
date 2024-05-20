@@ -22,7 +22,7 @@ public class Vehiculo {
     @Column(unique = true, length = 15)
     private String placa;
 
-    private boolean aprovado;
+    private boolean aprobado;
 
     @Column(length = 20)
     private String categoria;

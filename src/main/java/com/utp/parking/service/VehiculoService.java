@@ -32,7 +32,7 @@ public class VehiculoService implements IVehiculoService {
         return DtoVehiculo.builder()
                 .id_vehiculo(vehiculo.getId_vehiculo())
                 .placa(vehiculo.getPlaca())
-                .aprovado(vehiculo.isAprovado())
+                .aprovado(vehiculo.isAprobado())
                 .categoria(vehiculo.getCategoria())
                 .activo(vehiculo.isActivo())
                 .usuario(DtoUsuario.builder()
@@ -53,6 +53,6 @@ public class VehiculoService implements IVehiculoService {
     public Boolean validarVehiculo(String placa) {
         Vehiculo vehiculo = respository.findByPlaca(placa);
         assert vehiculo != null;
-        return vehiculo.isAprovado();
+        return vehiculo.isAprobado();
     }
 }
