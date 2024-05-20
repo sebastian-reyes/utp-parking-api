@@ -5,6 +5,7 @@ import com.utp.parking.model.Usuario;
 import com.utp.parking.model.Vehiculo;
 import com.utp.parking.model.dto.DtoUsuario;
 import com.utp.parking.model.dto.DtoVehiculo;
+import com.utp.parking.model.dto.request.DtoVehiculoRequest;
 import com.utp.parking.repository.VehiculoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ public class VehiculoService implements IVehiculoService {
 
     @Autowired
     private VehiculoRespository respository;
+    @Autowired
+    private VehiculoRespository vehiculoRespository;
 
     @Override
-    public Vehiculo registrarVehiculo(Vehiculo v) {
-        return respository.save(v);
+    public void registrarVehiculo(DtoVehiculoRequest v) {
+        vehiculoRespository.registrarVehiculo(v.getCategoria(), v.getPlaca(), v.getId_usuario());
     }
 
     @Override

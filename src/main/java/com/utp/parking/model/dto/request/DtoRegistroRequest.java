@@ -1,4 +1,4 @@
-package com.utp.parking.model.dto;
+package com.utp.parking.model.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

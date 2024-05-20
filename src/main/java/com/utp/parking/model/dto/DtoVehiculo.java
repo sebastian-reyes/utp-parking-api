@@ -15,6 +15,5 @@ public class DtoVehiculo {
     private boolean aprovado;
     private String categoria;
     private boolean activo;
-
     private DtoUsuario usuario;
 }

@@ -5,7 +5,7 @@ import com.utp.parking.interfaceService.ISedeService;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Registro;
 import com.utp.parking.model.Sede;
-import com.utp.parking.model.dto.DtoRegistroRequest;
+import com.utp.parking.model.dto.request.DtoRegistroRequest;
 import com.utp.parking.service.EstacionamientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

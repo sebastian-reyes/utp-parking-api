@@ -24,6 +24,9 @@ public class Solicitud {
     @Column(name = "fecha_solicitud")
     private LocalDateTime fechaSolicitud;
 
+    @Column(name = "fecha_respuesta")
+    private LocalDateTime fechaRespuesta;
+
     @Column(length = 15)
     private String estado;
 
