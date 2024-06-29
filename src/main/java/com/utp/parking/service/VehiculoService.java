@@ -3,6 +3,7 @@ package com.utp.parking.service;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Usuario;
 import com.utp.parking.model.Vehiculo;
+import com.utp.parking.model.dto.DtoSolicitud;
 import com.utp.parking.model.dto.DtoUsuario;
 import com.utp.parking.model.dto.DtoVehiculo;
 import com.utp.parking.model.dto.request.DtoVehiculoRequest;
@@ -17,6 +18,32 @@ public class VehiculoService implements IVehiculoService {
     private VehiculoRespository respository;
     @Autowired
     private VehiculoRespository vehiculoRespository;
+
+    @Override
+    public DtoVehiculo buscarVehiculoId(Integer id) {
+        Vehiculo vehiculo = respository.findById(id).orElse(null);
+        assert vehiculo != null;
+        Usuario usuario = vehiculo.getUsuario();
+        /*Implementar MapStruct para evitar escribir este mapeo*/
+        return DtoVehiculo.builder()
+                .id_vehiculo(vehiculo.getId_vehiculo())
+                .placa(vehiculo.getPlaca())
+                .aprovado(vehiculo.isAprobado())
+                .categoria(vehiculo.getCategoria())
+                .activo(vehiculo.isActivo())
+                .usuario(DtoUsuario.builder()
+                        .id_usuario(usuario.getId_usuario())
+                        .username(usuario.getUsername())
+                        .nombres(usuario.getNombres())
+                        .apellidos(usuario.getApellidos())
+                        .correoInstitucional(usuario.getCorreoInstitucional())
+                        .dni(usuario.getDni())
+                        .carrera((usuario.getCarrera() == null) ? "-" : usuario.getCarrera())
+                        .matriculado(usuario.getMatriculado())
+                        .role(usuario.getRole())
+                        .build())
+                .build();
+    }
 
     @Override
     public void registrarVehiculo(DtoVehiculoRequest v) {

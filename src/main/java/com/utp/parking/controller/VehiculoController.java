@@ -23,11 +23,25 @@ public class VehiculoController {
     @Autowired
     private VehiculoService vehiculoService;
 
-    @GetMapping("/{placa}")
-    public ResponseEntity<?> getVehiculo(@PathVariable String placa) {
+    @GetMapping("/placa/{placa}")
+    public ResponseEntity<?> getVehiculoPlaca(@PathVariable String placa) {
         Map<String, Object> response = new HashMap<>();
         try {
             DtoVehiculo vehiculo = service.buscarVehiculo(placa);
+            response.put("vehiculo", vehiculo);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta a la base de datos.");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getVehiculoId(@PathVariable Integer id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            DtoVehiculo vehiculo = service.buscarVehiculoId(id);
             response.put("vehiculo", vehiculo);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
