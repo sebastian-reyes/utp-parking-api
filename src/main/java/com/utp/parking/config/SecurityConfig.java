@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/export/**").permitAll()
                                 .requestMatchers("/registros/ingreso").hasAuthority("SEGURIDAD")
                                 .requestMatchers("/registros/salida").hasAuthority("SEGURIDAD")
                                 .requestMatchers("/registros/listar").hasAnyAuthority("ADMINISTRATIVO","PERSONAL_SAE")

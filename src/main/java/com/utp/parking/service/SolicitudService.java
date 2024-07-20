@@ -2,6 +2,7 @@ package com.utp.parking.service;
 
 import com.utp.parking.interfaceService.ISolicitudService;
 import com.utp.parking.model.Solicitud;
+import com.utp.parking.model.dto.SolicitudExportDTO;
 import com.utp.parking.model.dto.request.DTOSolicitudRequest;
 import com.utp.parking.repository.SolicitudRepository;
 import com.utp.parking.repository.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SolicitudService implements ISolicitudService {
@@ -42,5 +44,34 @@ public class SolicitudService implements ISolicitudService {
         solicitud.setUsuarioSae(usuarioRepository.findById(idUsuarioSae).orElse(null));
         solicitudRepository.save(solicitud);
         return solicitud;
+    }
+
+    @Override
+    public List<SolicitudExportDTO> getAllSolicitudesForExport() {
+        List<Solicitud> solicitudes = solicitudRepository.findAll();
+        return mapSolicitudesExportDTOs(solicitudes);
+    }
+
+    @Override
+    public List<SolicitudExportDTO> getSolicitudesPorIntervaloFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        List<Solicitud> registros = solicitudRepository.findByFechaSolicitudBetween(fechaInicio, fechaFin);
+        return mapSolicitudesExportDTOs(registros);
+    }
+
+    @Override
+    public List<Solicitud> findBySolicitudByUsername(String username) {
+        return solicitudRepository.findByUsuarioUsername(username);
+    }
+
+    private List<SolicitudExportDTO> mapSolicitudesExportDTOs(List<Solicitud> solicitudes) {
+        return solicitudes.stream().map(solicitud -> SolicitudExportDTO.builder()
+                        .idSolicitud(solicitud.getId_solicitud())
+                        .estado(solicitud.getEstado())
+                        .fechaRespuesta(solicitud.getFechaRespuesta())
+                        .fechaSolicitud(solicitud.getFechaSolicitud())
+                        .usuarioUsername(solicitud.getUsuario().getUsername())
+                        .vehiculoPlaca(solicitud.getVehiculo().getPlaca())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
