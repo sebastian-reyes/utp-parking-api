@@ -15,6 +15,8 @@ public class DtoSolicitud {
     private LocalDateTime fechaSolicitud;
     private LocalDateTime fechaRespuesta;
     private String estado;
+    private String comentario;
     private Integer idUsuario;
     private Integer idVehiculo;
+    private Integer idUsuarioSae;
 }

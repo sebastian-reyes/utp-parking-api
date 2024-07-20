@@ -30,6 +30,9 @@ public class Solicitud {
     @Column(length = 15)
     private String estado;
 
+    @Column(columnDefinition = "TEXT")
+    private String comentario;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "solicitudes", "id_usuario"})
@@ -42,6 +45,6 @@ public class Solicitud {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario_sae", referencedColumnName = "id_usuario")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "solicitudes", "id_usuario"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "solicitudes", "id_usuario_sae"})
     private Usuario usuarioSae;
 }

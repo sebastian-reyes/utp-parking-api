@@ -2,6 +2,7 @@ package com.utp.parking.service;
 
 import com.utp.parking.interfaceService.ISolicitudService;
 import com.utp.parking.model.Solicitud;
+import com.utp.parking.model.dto.DtoSolicitud;
 import com.utp.parking.model.dto.SolicitudExportDTO;
 import com.utp.parking.model.dto.request.DTOSolicitudRequest;
 import com.utp.parking.repository.SolicitudRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +46,13 @@ public class SolicitudService implements ISolicitudService {
         solicitud.setUsuarioSae(usuarioRepository.findById(idUsuarioSae).orElse(null));
         solicitudRepository.save(solicitud);
         return solicitud;
+    }
+
+    @Override
+    public void registrarComentario(Integer idSolicitud, String comentario) {
+        Solicitud solicitud = solicitudRepository.findById(idSolicitud).orElse(null);
+        solicitud.setComentario(comentario);
+        solicitudRepository.save(solicitud);
     }
 
     @Override

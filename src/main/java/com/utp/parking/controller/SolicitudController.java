@@ -4,6 +4,7 @@ import com.utp.parking.interfaceService.ISolicitudService;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Solicitud;
 import com.utp.parking.model.dto.DtoSolicitud;
+import com.utp.parking.model.dto.request.DTOComentarioRequest;
 import com.utp.parking.model.dto.request.DTOSolicitudPathRequest;
 import com.utp.parking.model.dto.request.DTOSolicitudRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,19 @@ public class SolicitudController {
         List<DtoSolicitud> lstSolicitudes = new ArrayList<>();
         Map<String, Object> response = new HashMap<>();
         for (Solicitud s : solicitudService.listarSolicitudes()) {
+            Integer idUsuarioSae = s.getUsuarioSae() != null ? s.getUsuarioSae().getId_usuario() : null;
+            if (s.getComentario() == null || s.getComentario().isEmpty()) {
+                s.setComentario("No hay comentarios para esta Solicitud, por favor espere a que un agente del SAE responda su solicitud.");
+            }
             DtoSolicitud nuevaSolicitud = new DtoSolicitud(
                     s.getId_solicitud(),
                     s.getFechaSolicitud(),
                     s.getFechaRespuesta(),
                     s.getEstado(),
+                    s.getComentario(),
                     s.getUsuario().getId_usuario(),
-                    s.getVehiculo().getId_vehiculo()
+                    s.getVehiculo().getId_vehiculo(),
+                    idUsuarioSae
             );
             lstSolicitudes.add(nuevaSolicitud);
         }
@@ -49,13 +56,19 @@ public class SolicitudController {
         List<DtoSolicitud> lstSolicitudes = new ArrayList<>();
         Map<String, Object> response = new HashMap<>();
         for (Solicitud s : solicitudService.listarSolicitudesId(id)) {
+            Integer idUsuarioSae = s.getUsuarioSae() != null ? s.getUsuarioSae().getId_usuario() : null;
+            if (s.getComentario() == null || s.getComentario().isEmpty()) {
+                s.setComentario("No hay comentarios para esta Solicitud, por favor espere a que un agente del SAE responda su solicitud.");
+            }
             DtoSolicitud nuevaSolicitud = new DtoSolicitud(
                     s.getId_solicitud(),
                     s.getFechaSolicitud(),
                     s.getFechaRespuesta(),
                     s.getEstado(),
+                    s.getComentario(),
                     s.getUsuario().getId_usuario(),
-                    s.getVehiculo().getId_vehiculo()
+                    s.getVehiculo().getId_vehiculo(),
+                    idUsuarioSae
             );
             lstSolicitudes.add(nuevaSolicitud);
         }
@@ -86,6 +99,20 @@ public class SolicitudController {
                 vehiculoService.actualizarEstaddoVehiculo(solicitud.getVehiculo().getId_vehiculo());
             }
             response.put("mensaje", "Estado de la solicitud: " + solicitud.getEstado());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta a la base de datos.");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/respuesta/comentario/{id}")
+    public ResponseEntity<?> registrarComentario(@PathVariable int id, @RequestBody DTOComentarioRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            solicitudService.registrarComentario(id, request.getComentario());
+            response.put("comentario", request.getComentario());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta a la base de datos.");
