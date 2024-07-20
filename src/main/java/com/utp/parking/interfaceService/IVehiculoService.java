@@ -1,7 +1,5 @@
 package com.utp.parking.interfaceService;
 
-import com.utp.parking.model.Vehiculo;
-import com.utp.parking.model.dto.DtoSolicitud;
 import com.utp.parking.model.dto.DtoVehiculo;
 import com.utp.parking.model.dto.VehiculoExportDTO;
 import com.utp.parking.model.dto.request.DtoVehiculoRequest;

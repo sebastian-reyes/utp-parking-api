@@ -1,7 +1,6 @@
 package com.utp.parking.config;
 
 import com.utp.parking.jwt.JwtAuthenticationFilter;
-import com.utp.parking.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
