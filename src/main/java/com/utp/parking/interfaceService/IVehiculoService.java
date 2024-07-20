@@ -10,4 +10,5 @@ public interface IVehiculoService {
     void registrarVehiculo(DtoVehiculoRequest v);
     DtoVehiculo buscarVehiculo(String placa);
     Boolean validarVehiculo(String placa);
+    Vehiculo actualizarEstaddoVehiculo(Integer id);
 }

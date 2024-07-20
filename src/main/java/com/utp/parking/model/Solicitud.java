@@ -39,4 +39,9 @@ public class Solicitud {
     @JoinColumn(name = "id_vehiculo")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "solicitudes", "id_vehiculo"})
     private Vehiculo vehiculo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario_sae", referencedColumnName = "id_usuario")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "solicitudes", "id_usuario"})
+    private Usuario usuarioSae;
 }

@@ -67,6 +67,10 @@ public class Usuario implements UserDetails {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","usuario"})
     private List<Solicitud> solicitudes;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuarioSae", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","usuarioSAE"})
+    private List<Solicitud> solicitudesSae;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

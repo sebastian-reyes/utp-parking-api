@@ -38,7 +38,7 @@ public class SedeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> listarSede(@PathVariable Integer id){
+    public ResponseEntity<?> listarSedeId(@PathVariable Integer id){
         Map<String, Object> response = new HashMap<>();
         Sede s = service.buscarSede(id);
         DtoSede sede = new DtoSede(

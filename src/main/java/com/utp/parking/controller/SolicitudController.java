@@ -3,7 +3,10 @@ package com.utp.parking.controller;
 import com.utp.parking.interfaceService.ISolicitudService;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Solicitud;
+import com.utp.parking.model.Vehiculo;
 import com.utp.parking.model.dto.DtoSolicitud;
+import com.utp.parking.model.dto.DtoVehiculo;
+import com.utp.parking.model.dto.request.DTOSolicitudPathRequest;
 import com.utp.parking.model.dto.request.DTOSolicitudRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -69,6 +72,23 @@ public class SolicitudController {
             solicitudService.registrarSolicitud(request);
             response.put("mensaje", "Solicitud registrada con exito.");
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta a la base de datos.");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/respuesta/{id}")
+    public ResponseEntity<?> respuestaSolicitud(@PathVariable int id, @RequestBody DTOSolicitudPathRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            Solicitud solicitud = solicitudService.actualizarSolicitud(id, request.getEstado(), request.getIdSae());
+            if (request.getEstado().equals("Aceptado")) {
+                vehiculoService.actualizarEstaddoVehiculo(solicitud.getVehiculo().getId_vehiculo());
+            }
+            response.put("mensaje", "Estado de la solicitud: " + solicitud.getEstado());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta a la base de datos.");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

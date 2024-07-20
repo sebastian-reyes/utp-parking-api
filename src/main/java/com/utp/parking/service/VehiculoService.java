@@ -82,4 +82,13 @@ public class VehiculoService implements IVehiculoService {
         assert vehiculo != null;
         return vehiculo.isAprobado();
     }
+
+    @Override
+    public Vehiculo actualizarEstaddoVehiculo(Integer id) {
+        Vehiculo vehiculo = respository.findById(id).orElse(null);
+        assert vehiculo != null;
+        vehiculo.setAprobado(true);
+        vehiculo.setActivo(true);
+        return vehiculoRespository.save(vehiculo);
+    }
 }

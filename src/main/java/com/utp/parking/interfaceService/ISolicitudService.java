@@ -11,4 +11,5 @@ public interface ISolicitudService {
     List<Solicitud> listarSolicitudesId(Integer usuarioId);
     List<Solicitud> listarSolicitudes();
     void registrarSolicitud(DTOSolicitudRequest dtoSolicitud);
+    Solicitud actualizarSolicitud(Integer idSolicitud, String estado, Integer idUsuarioSae);
 }
