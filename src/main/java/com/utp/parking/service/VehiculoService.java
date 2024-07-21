@@ -88,7 +88,7 @@ public class VehiculoService implements IVehiculoService {
     }
 
     @Override
-    public void actualizarEstaddoVehiculo(Integer id) {
+    public void actualizarEstadoVehiculo(Integer id) {
         Vehiculo vehiculo = respository.findById(id).orElse(null);
         assert vehiculo != null;
         vehiculo.setAprobado(true);

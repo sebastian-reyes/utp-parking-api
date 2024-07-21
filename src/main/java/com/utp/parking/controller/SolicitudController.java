@@ -96,7 +96,7 @@ public class SolicitudController {
         try {
             Solicitud solicitud = solicitudService.actualizarSolicitud(id, request.getEstado(), request.getIdSae());
             if (request.getEstado().equals("Aceptado")) {
-                vehiculoService.actualizarEstaddoVehiculo(solicitud.getVehiculo().getId_vehiculo());
+                vehiculoService.actualizarEstadoVehiculo(solicitud.getVehiculo().getId_vehiculo());
             }
             response.put("mensaje", "Estado de la solicitud: " + solicitud.getEstado());
             return new ResponseEntity<>(response, HttpStatus.OK);

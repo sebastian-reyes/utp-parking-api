@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface VehiculoRespository extends JpaRepository<Vehiculo, Integer> {
-    public Vehiculo findByPlaca(String placa);
+    Vehiculo findByPlaca(String placa);
 
     @Modifying
     @Transactional

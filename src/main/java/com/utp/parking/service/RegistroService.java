@@ -3,6 +3,7 @@ package com.utp.parking.service;
 import com.utp.parking.interfaceService.IRegistroService;
 import com.utp.parking.model.Registro;
 import com.utp.parking.model.dto.RegistroExportDTO;
+import com.utp.parking.model.dto.request.DtoRegistro;
 import com.utp.parking.model.dto.request.DtoRegistroRequest;
 import com.utp.parking.repository.RegistroRepository;
 import com.utp.parking.repository.VehiculoRespository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,23 @@ public class RegistroService implements IRegistroService {
         r.setFecha_salida(LocalDateTime.now());
         registroRepository.save(r);
         return r;
+    }
+
+    @Override
+    public List<DtoRegistro> obtenerRegistros() {
+        List<DtoRegistro> lstRegistros = new ArrayList<>();
+        for (Registro r : registroRepository.findRegistrosNoSalida()) {
+            DtoRegistro dto = new DtoRegistro();
+            dto.setId_registro(r.getId_registro());
+            dto.setFecha_ingreso(r.getFecha_ingreso());
+            dto.setFecha_salida(r.getFecha_salida());
+            dto.setObservacion(r.getObservacion());
+            dto.setIdUsuario(r.getUsuario().getId_usuario());
+            dto.setIdUsuarioSeguridad(r.getUsuarioSeguridad().getId_usuario());
+            dto.setPlacaVehiculo(r.getVehiculo().getPlaca());
+            lstRegistros.add(dto);
+        }
+        return lstRegistros;
     }
 
     @Override
