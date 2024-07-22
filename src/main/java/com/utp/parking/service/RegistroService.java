@@ -102,6 +102,9 @@ public class RegistroService implements IRegistroService {
         dto.setFecha_ingreso(r.getFecha_ingreso());
         dto.setFecha_salida(r.getFecha_salida());
         dto.setObservacion(r.getObservacion());
+        dto.setNombreSede(r.getEstacionamiento().getSede().getNombre());
+        dto.setCodigoUsuario(r.getUsuario().getUsername());
+        dto.setNombreUsuario(r.getUsuario().getApellidos()+", "+r.getUsuario().getNombres());
         dto.setIdUsuario(r.getUsuario().getId_usuario());
         dto.setIdUsuarioSeguridad(r.getUsuarioSeguridad().getId_usuario());
         dto.setPlacaVehiculo(r.getVehiculo().getPlaca());

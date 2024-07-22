@@ -43,7 +43,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .nombres(registerRequest.getNombres())
                 .apellidos(registerRequest.getApellidos())
-                .correoInstitucional(registerRequest.getCorreInstitucional())
+                .correoInstitucional(registerRequest.getCorreoInstitucional())
                 .dni(registerRequest.getDni())
                 .carrera(registerRequest.getCarrera())
                 .matriculado(registerRequest.getMatriculado())

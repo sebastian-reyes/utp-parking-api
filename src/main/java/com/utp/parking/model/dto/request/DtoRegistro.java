@@ -14,6 +14,9 @@ public class DtoRegistro {
     private LocalDateTime fecha_ingreso;
     private LocalDateTime fecha_salida;
     private String observacion;
+    private String nombreSede;
+    private String codigoUsuario;
+    private String nombreUsuario;
     private Integer IdUsuario;
     private Integer IdUsuarioSeguridad;
     private String placaVehiculo;

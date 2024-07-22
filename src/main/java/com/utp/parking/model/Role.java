@@ -5,5 +5,6 @@ public enum Role {
     DOCENTE,
     ADMINISTRATIVO,
     SEGURIDAD,
-    PERSONAL_SAE
+    PERSONAL_SAE,
+    JEFE_SEGURIDAD
 }

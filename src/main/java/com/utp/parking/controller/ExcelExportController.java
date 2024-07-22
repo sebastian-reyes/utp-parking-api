@@ -4,6 +4,7 @@
  */
 package com.utp.parking.controller;
 
+import com.utp.parking.interfaceService.IUsuarioService;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Solicitud;
 import com.utp.parking.model.dto.RegistroExportDTO;
@@ -20,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -36,21 +38,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- *
  * @author jvidal
  */
 @RestController
 @RequestMapping("/export")
 public class ExcelExportController {
-    
+
     @Autowired
     private RegistroService registroService;
-    
+
     @Autowired
     private SolicitudService solicitudService;
-    
+
     @Autowired
     private IVehiculoService vehiculoService;
+
+    @Autowired
+    private IUsuarioService usuarioService;
 
     @GetMapping("/registros")
     public ResponseEntity<InputStreamResource> exportRegistrosToExcel() throws IOException {
@@ -107,7 +111,7 @@ public class ExcelExportController {
     ) throws IOException {
         LocalDateTime fechaInicioDateTime = fechaInicio.atStartOfDay();
         LocalDateTime fechaFinDateTime = fechaFin.atTime(LocalTime.MAX);
-        
+
         List<RegistroExportDTO> registros = registroService.getRegistrosPorIntervaloFechas(fechaInicioDateTime, fechaFinDateTime);
 
         Workbook workbook = new XSSFWorkbook();
@@ -153,7 +157,7 @@ public class ExcelExportController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(in));
     }
-    
+
     @GetMapping("/vehiculos")
     public ResponseEntity<byte[]> exportVehiculosToExcel() throws IOException {
         List<VehiculoExportDTO> vehiculos = vehiculoService.getAllVehiculos();
@@ -190,7 +194,7 @@ public class ExcelExportController {
 
         return ResponseEntity.ok().headers(headersResponse).body(excelContent);
     }
-    
+
     @GetMapping("/solicitudes")
     public ResponseEntity<InputStreamResource> exportSolicitudesToExcel() throws IOException {
         List<SolicitudExportDTO> solicitudes = solicitudService.getAllSolicitudesForExport();
@@ -213,7 +217,7 @@ public class ExcelExportController {
             Row row = sheet.createRow(rowIdx++);
             row.createCell(0).setCellValue(solicitud.getIdSolicitud());
             row.createCell(1).setCellValue(solicitud.getEstado());
-            row.createCell(2).setCellValue(solicitud.getFechaRespuesta()!= null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
+            row.createCell(2).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
             row.createCell(3).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("HH:mm:ss")) : "");
             row.createCell(4).setCellValue(solicitud.getFechaSolicitudFormatted());
             row.createCell(5).setCellValue(solicitud.getHoraSolicitudFormatted());
@@ -235,7 +239,7 @@ public class ExcelExportController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(in));
     }
-    
+
     @GetMapping("/solicitudes-intervalo")
     public ResponseEntity<InputStreamResource> exportSolicitudesPorIntervalo(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
@@ -243,7 +247,7 @@ public class ExcelExportController {
     ) throws IOException {
         LocalDateTime fechaInicioDateTime = fechaInicio.atStartOfDay();
         LocalDateTime fechaFinDateTime = fechaFin.atTime(LocalTime.MAX);
-        
+
         List<SolicitudExportDTO> solicitudes = solicitudService.getSolicitudesPorIntervaloFechas(fechaInicioDateTime, fechaFinDateTime);
 
         Workbook workbook = new XSSFWorkbook();
@@ -264,7 +268,7 @@ public class ExcelExportController {
             Row row = sheet.createRow(rowIdx++);
             row.createCell(0).setCellValue(solicitud.getIdSolicitud());
             row.createCell(1).setCellValue(solicitud.getEstado());
-            row.createCell(2).setCellValue(solicitud.getFechaRespuesta()!= null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
+            row.createCell(2).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
             row.createCell(3).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("HH:mm:ss")) : "");
             row.createCell(4).setCellValue(solicitud.getFechaSolicitudFormatted());
             row.createCell(5).setCellValue(solicitud.getHoraSolicitudFormatted());
@@ -285,7 +289,7 @@ public class ExcelExportController {
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(in));
     }
-    
+
     @GetMapping("/solicitudes/{username}")
     public void exportSolicitudesByUsername(@PathVariable String username, HttpServletResponse response) throws IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -294,15 +298,15 @@ public class ExcelExportController {
         List<Solicitud> solicitudes = solicitudService.findBySolicitudByUsername(username);
 
         List<SolicitudExportDTO> solicitudesDTO = solicitudes.stream().map(solicitud -> SolicitudExportDTO.builder()
-                .idSolicitud(solicitud.getId_solicitud())
-                .estado(solicitud.getEstado())
-                .fechaSolicitud(solicitud.getFechaSolicitud())
-                .fechaRespuesta(solicitud.getFechaRespuesta())
-                .usuarioUsername(solicitud.getUsuario().getUsername())
-                .vehiculoPlaca(solicitud.getVehiculo().getPlaca())
-                .fechaSolicitudFormatted(solicitud.getFechaSolicitud().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .horaSolicitudFormatted(solicitud.getFechaSolicitud().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
-                .build())
+                        .idSolicitud(solicitud.getId_solicitud())
+                        .estado(solicitud.getEstado())
+                        .fechaSolicitud(solicitud.getFechaSolicitud())
+                        .fechaRespuesta(solicitud.getFechaRespuesta())
+                        .usuarioUsername(solicitud.getUsuario().getUsername())
+                        .vehiculoPlaca(solicitud.getVehiculo().getPlaca())
+                        .fechaSolicitudFormatted(solicitud.getFechaSolicitud().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
+                        .horaSolicitudFormatted(solicitud.getFechaSolicitud().format(DateTimeFormatter.ofPattern("HH:mm:ss")))
+                        .build())
                 .toList();
 
         Workbook workbook = new XSSFWorkbook();
@@ -323,7 +327,7 @@ public class ExcelExportController {
             Row row = sheet.createRow(rowIdx++);
             row.createCell(0).setCellValue(solicitud.getIdSolicitud());
             row.createCell(1).setCellValue(solicitud.getEstado());
-            row.createCell(2).setCellValue(solicitud.getFechaRespuesta()!= null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
+            row.createCell(2).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) : "");
             row.createCell(3).setCellValue(solicitud.getFechaRespuesta() != null ? solicitud.getFechaRespuesta().format(DateTimeFormatter.ofPattern("HH:mm:ss")) : "");
             row.createCell(4).setCellValue(solicitud.getFechaSolicitudFormatted());
             row.createCell(5).setCellValue(solicitud.getHoraSolicitudFormatted());
@@ -333,5 +337,17 @@ public class ExcelExportController {
 
         workbook.write(response.getOutputStream());
         workbook.close();
+    }
+
+    @GetMapping("/seguridad")
+    public ResponseEntity<Resource> exportUsuariosSeguridad() {
+        try {
+            Resource resource = usuarioService.exportUsuariosSeguridadToExcel();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=usuarios_seguridad.xlsx")
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

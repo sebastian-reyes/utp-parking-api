@@ -15,7 +15,7 @@ public class RegisterRequest {
     private String password;
     private String nombres;
     private String apellidos;
-    private String correInstitucional;
+    private String correoInstitucional;
     private String dni;
     private Role rol;
     private String carrera;
