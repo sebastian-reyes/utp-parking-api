@@ -27,6 +27,9 @@ public interface RegistroRepository extends JpaRepository<Registro, Integer> {
     @Query("SELECT r from Registro r where r.fecha_salida IS NULL")
     List<Registro> findRegistrosNoSalida();
 
+    @Query("SELECT r from Registro r where r.observacion IS NOT NULL")
+    List<Registro> findRegistroConObservacion();
+
     @Query("SELECT r FROM Registro r WHERE r.fecha_ingreso BETWEEN :start AND :end")
     List<Registro> findByFechaIngresoBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }

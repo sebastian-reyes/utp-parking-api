@@ -41,18 +41,31 @@ public class RegistroService implements IRegistroService {
     }
 
     @Override
-    public List<DtoRegistro> obtenerRegistros() {
+    public void registrarObservacion(String placa, String observacion) {
+        for (Registro r : registroRepository.findRegistrosNoSalida()) {
+            if(r.getVehiculo().getPlaca().equals(placa)){
+                r.setObservacion(observacion);
+                registroRepository.save(r);
+            }else {
+                return;
+            }
+        }
+    }
+
+    @Override
+    public List<DtoRegistro> obtenerRegistrosNoSalida() {
         List<DtoRegistro> lstRegistros = new ArrayList<>();
         for (Registro r : registroRepository.findRegistrosNoSalida()) {
-            DtoRegistro dto = new DtoRegistro();
-            dto.setId_registro(r.getId_registro());
-            dto.setFecha_ingreso(r.getFecha_ingreso());
-            dto.setFecha_salida(r.getFecha_salida());
-            dto.setObservacion(r.getObservacion());
-            dto.setIdUsuario(r.getUsuario().getId_usuario());
-            dto.setIdUsuarioSeguridad(r.getUsuarioSeguridad().getId_usuario());
-            dto.setPlacaVehiculo(r.getVehiculo().getPlaca());
-            lstRegistros.add(dto);
+            mapRegistro(lstRegistros, r);
+        }
+        return lstRegistros;
+    }
+
+    @Override
+    public List<DtoRegistro> obtenerRegistroConObservacion() {
+        List<DtoRegistro> lstRegistros = new ArrayList<>();
+        for (Registro r : registroRepository.findRegistroConObservacion()) {
+            mapRegistro(lstRegistros, r);
         }
         return lstRegistros;
     }
@@ -81,5 +94,17 @@ public class RegistroService implements IRegistroService {
                         .usuarioSeguridadUsername(registro.getUsuarioSeguridad().getUsername())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private void mapRegistro(List<DtoRegistro> lstRegistros, Registro r) {
+        DtoRegistro dto = new DtoRegistro();
+        dto.setId_registro(r.getId_registro());
+        dto.setFecha_ingreso(r.getFecha_ingreso());
+        dto.setFecha_salida(r.getFecha_salida());
+        dto.setObservacion(r.getObservacion());
+        dto.setIdUsuario(r.getUsuario().getId_usuario());
+        dto.setIdUsuarioSeguridad(r.getUsuarioSeguridad().getId_usuario());
+        dto.setPlacaVehiculo(r.getVehiculo().getPlaca());
+        lstRegistros.add(dto);
     }
 }

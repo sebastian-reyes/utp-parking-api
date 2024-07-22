@@ -11,7 +11,9 @@ import java.util.List;
 public interface IRegistroService {
     void registrarIngreso(DtoRegistroRequest request);
     Registro registrarSalida(Integer idVehiculo);
-    List<DtoRegistro> obtenerRegistros();
+    void registrarObservacion(String placa, String observacion);
+    List<DtoRegistro> obtenerRegistrosNoSalida();
+    List<DtoRegistro> obtenerRegistroConObservacion();
     List<RegistroExportDTO> getAllRegistrosForExport();
     List<RegistroExportDTO> getRegistrosPorIntervaloFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 }

@@ -5,6 +5,7 @@ import com.utp.parking.interfaceService.ISedeService;
 import com.utp.parking.interfaceService.IVehiculoService;
 import com.utp.parking.model.Registro;
 import com.utp.parking.model.Sede;
+import com.utp.parking.model.dto.request.DTOComentarioRequest;
 import com.utp.parking.model.dto.request.DtoRegistro;
 import com.utp.parking.model.dto.request.DtoRegistroRequest;
 import com.utp.parking.service.EstacionamientoService;
@@ -39,7 +40,7 @@ public class RegistroController {
         Map<String, Object> response = new HashMap<>();
         request.setIdUsuario(vehiculoService.buscarVehiculo(request.getPlaca()).getUsuario().getId_usuario());
         if (vehiculoService.validarVehiculo(request.getPlaca())) {
-            for(DtoRegistro r: registroService.obtenerRegistros()){
+            for(DtoRegistro r: registroService.obtenerRegistrosNoSalida()){
                 if(r.getPlacaVehiculo().equals(request.getPlaca())){
                     response.put("mensaje", "El vehículo ya se encuentra registrado dentro del sistema");
                     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -86,8 +87,30 @@ public class RegistroController {
     @GetMapping("/sin-salida")
     public ResponseEntity<?> listarRegistrosSinFechaDeSalida() {
         Map<String, Object> response = new HashMap<>();
-        List<DtoRegistro> lstRegistros = registroService.obtenerRegistros();
+        List<DtoRegistro> lstRegistros = registroService.obtenerRegistrosNoSalida();
         response.put("registros", lstRegistros);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/con-observacion")
+    public ResponseEntity<?> listarRegistrosConObservacion(){
+        Map<String, Object> response = new HashMap<>();
+        List<DtoRegistro> lstRegistros = registroService.obtenerRegistroConObservacion();
+        response.put("registros", lstRegistros);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping("/observacion/{placa}")
+    public ResponseEntity<?> registrarObservacion(@PathVariable String placa, @RequestBody DTOComentarioRequest observacion) {
+        Map<String, Object> response = new HashMap<>();
+        for(DtoRegistro r: registroService.obtenerRegistrosNoSalida()) {
+            if (r.getPlacaVehiculo().equals(placa)) {
+                registroService.registrarObservacion(placa, observacion.getComentario());
+                response.put("comentario", "Observación registrada");
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }
+        response.put("comentario", "El vehículo no se encuentra registrado o ya salió del sistema.");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
