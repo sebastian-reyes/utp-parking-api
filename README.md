@@ -7,16 +7,38 @@
 RESTful API para el proyecto del **Curso Integrador I** para la UTP, cuya finalidad es **mostrar la capacidad de
 estacionamientos disponibles** que hay por cada sede del campus "Lima Centro"
 
-## Funcionalidades
+## Funcionalidades por rol
 
-- [x] Login (estudiantes, docentes, administrativos y personal de seguridad)
+### Todos los roles
+
+- [x] Login
+
+### Alumno, Profesor, Administrativo
+
 - [x] Mostrar datos de estacionamientos disponibles
 - [x] Registrar solicitud para el ingreso del vehículo
-- [ ] Autorización o denegación de solicitud de registro
+- [x] Listado de solicitudes según el usuario
+- [x] Reporte de ingresos y salidas
+- [x] Autorización o denegación de solicitud de registro
+
+### Personal de Seguridad
+
+- [x] Mostrar datos de estacionamientos disponibles
+- [x] Selecionar en que sede está trabajando
 - [x] Validación de placa para ingreso de vehículo
 - [x] Registro de ingreso y salidas de vehículos
-- [ ] Registro de incidencias
-- [ ] Reporte de ingresos y salidas
+- [x] Registro de incidencias
+
+### Jefe de Seguridad
+
+- [x] Registrar nuevos usuarios de seguridad
+- [x] Listar todos los usuarios de seguridad
+
+### Personal de SAE
+
+- [x] Ver solicitudes de ingreso a estacionamiento
+- [x] Aceptar o denegar las solicitudes de ingreso
+- [x] Reporte de ingresos y salidas de vehículos
 
 ## Base de Datos
 
